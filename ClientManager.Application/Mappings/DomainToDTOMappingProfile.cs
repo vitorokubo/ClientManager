@@ -17,6 +17,11 @@ namespace ClientManager.Application.Mappings
         {
             CreateMap<Produto, ProdutoDTO>().ReverseMap();
             CreateMap<Cliente, ClienteDTO>().ReverseMap();
+            CreateMap<ProdutoVenda, ProdutoVendaDTO>().ReverseMap();
+              
+            CreateMap<Venda, VendaDTO>()
+                .ForMember(dest => dest.ProdutoVendaDTOs, opt => opt.MapFrom(src => src.Vendas)).ReverseMap();
+
 
         }
     }
