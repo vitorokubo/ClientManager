@@ -57,3 +57,28 @@ Após isso você pode rodar nossas camadas de Presentation com os projeto.
 
 - API
 - BlazorServer
+
+## Requisitos Atendidos
+
+Tarefas:
+
+- **Criar o banco de dados:**   #Parcial
+  - [x] Criar as tabelas para clientes, produtos e vendas no PostgreSQL.
+  - [x] Definir as chaves primárias, estrangeiras e índices.
+  - [x] Criar as queries para inserir, atualizar, remover e consultar dados.
+
+- **Desenvolver a aplicação desktop:** #Parcial
+  - [ ] Criar a interface gráfica do usuário (GUI) utilizando Windows Forms.
+  - [x] Implementar a funcionalidade de cadastro, edição e remoção para as entidades criadas.
+  - [ ] Implementar a funcionalidade de geração de relatórios utilizando o ReportViewer.
+  - [x] Utilizar a biblioteca NPGSQL para acessar o banco de dados.
+
+- **Testar a aplicação (Opcional - Será considerado um diferencial o desenvolvimento desta etapa):**
+  - [x] Realizar testes unitários para verificar o funcionamento correto de cada módulo da aplicação.
+  - [ ] Realizar testes de integração para verificar a interação entre os diferentes módulos.
+  - [ ] Documentar os testes realizados e os resultados.
+
+- **Criar o repositório Git:**
+  - [x] Criar um repositório Git para armazenar o código da aplicação.
+  - [x] Adicionar todos os arquivos do projeto ao repositório.
+  - [x] Criar um commit com a mensagem "Implementação inicial do sistema de gerenciamento de clientes e produtos".
