@@ -11,7 +11,6 @@ namespace ClientManager.Domain.Interfaces
     {
         Task<IEnumerable<ProdutoVenda>> GetProdutoVendasAsync();
         Task<ProdutoVenda> GetByIdAsync(int? id);
-
         Task<ProdutoVenda> CreateAsync(ProdutoVenda produtoVenda);
         Task<ProdutoVenda> UpdateAsync(ProdutoVenda produtoVenda);
         Task<ProdutoVenda> RemoveAsync(ProdutoVenda produtoVenda);
