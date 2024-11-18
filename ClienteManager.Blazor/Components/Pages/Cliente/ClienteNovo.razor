@@ -1,0 +1,62 @@
+﻿@page "/clientes/novo"
+@using ClientManager.Application.DTOs
+@using ClientManager.Application.Interfaces
+@inject IClienteService ClienteService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Adicionar Novo Cliente</PageTitle>
+
+<h3>Novo Cliente</h3>
+
+@if (isSaving)
+{
+    <p>Salvando cliente...</p>
+}
+else
+{
+    <EditForm Model="Model" id="addCliente" OnValidSubmit="SalvarCliente" FormName="novoClienteForm">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="name">Nome:</label>
+            <InputText id="name" @bind-Value="Model.Name" class="form-control" />
+        </div>
+
+        <button class="btn btn-primary" type="submit">Salvar</button>
+        <a class="btn btn-secondary" @onclick="Cancelar">Cancelar</a>
+    </EditForm>
+}
+
+@code {
+    [SupplyParameterFromForm]
+    private ClienteDTO? Model { get; set; }
+    private bool isSaving = false;
+
+    protected override void OnInitialized() => Model ??= new();
+  
+    private async Task SalvarCliente()
+    {
+        isSaving = true;
+        Console.WriteLine("Testes");
+        try
+        {
+
+            await ClienteService.Add(Model);
+            NavigationManager.NavigateTo("/clientes");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao salvar cliente: {ex.Message}");
+        }
+        finally
+        {
+            isSaving = false;
+        }
+    }
+
+    private void Cancelar()
+    {
+        NavigationManager.NavigateTo("/clientes");
+    }
+}

@@ -10,4 +10,9 @@
     <ProjectReference Include="..\ClientManager.Infrastructure.IoC\ClientManager.Infrastructure.IoC.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Components\Pages\Venda\" />
+    <Folder Include="Components\Pages\Produto\" />
+  </ItemGroup>
+
 </Project>

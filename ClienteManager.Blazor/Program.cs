@@ -1,4 +1,4 @@
-using ClienteManager.Blazor.Components;
+using ClienteManager.BlazorServer.Components;
 using ClientManager.Infrastructure.Context;
 using ClientManager.Infrastructure.IoC;
 

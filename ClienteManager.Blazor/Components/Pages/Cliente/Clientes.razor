@@ -1,0 +1,59 @@
+﻿@page "/clientes"
+@using ClientManager.Application.DTOs
+@using ClientManager.Application.Interfaces
+@inject IClienteService ClienteService
+
+<PageTitle>Clientes</PageTitle>
+
+<p>
+    <a href="/clientes/novo">Criar Novo Cliente</a>
+</p>
+
+@if (clientes == null)
+{
+    <p>Carregando clientes...</p>
+}
+else if (!clientes.Any())
+{
+    <p>Não há clientes cadastrados.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cliente in clientes)
+            {
+                <tr>
+                    <td>@cliente.Id</td>
+                    <td>@cliente.Name</td>
+                    <td>
+                        <a href="/clientes/editar/@cliente.Id">Editar</a> |
+                        <a href="/detalhescliente/@cliente.Id">Detalhes</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<ClienteDTO> clientes;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            clientes = await ClienteService.GetClientes();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao carregar clientes: {ex.Message}");
+        }
+    }
+}
