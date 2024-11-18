@@ -16,29 +16,29 @@ Meu foco para o projeto foi elaborar um projeto escalavel com arquitetura DDD e 
 A estrutura do projeto está:
 ```plaintext
 .
-├── Core/                    # Camada de regras de negócio e contratos
-│   ├── ClienteManager.Application/  # Lógica da aplicação e serviços
-│   │   ├── DTOs             # Objetos de transferência de dados
-│   │   ├── Interfaces       # Interfaces de serviços
-│   │   ├── Mappings         # Configuração de mapeamento (ex.: AutoMapper)
-│   │   └── Services         # Implementações de serviços da aplicação
-│   ├── ClienteManager.Domain/  # Domínio da aplicação
-│   │   ├── Entities         # Entidades de domínio
-│   │   ├── Interfaces       # Interfaces do domínio (ex.: repositórios)
-│   │   └── Validations      # Classes de validação de regras de negócio [Em Construção]
-├── Infrastructure/          # Infraestrutura e persistência de dados
-│   ├── ClienteManager.Infrastructure.Data/  
-│   │   ├── Context          # Configuração do contexto do banco de dados
-│   │   ├── EntitiesConfiguration  # Mapeamento de entidades
-│   │   ├── Identity         # Configuração de autenticação e autorização
-│   │   ├── Migrations       # Migrações do banco de dados
-│   │   └── Repositories     # Implementações de repositórios
-│   ├── ClienteManager.Infrastructure.IoC/  # Injeção de dependências
-├── Presentation/            # Camada de apresentação
-│   ├── ClienteManager.API/  # API RESTful  [Em Construção]
-│   └── ClienteManager.BlazorServer/  # Interface web com Blazor Server [EmConstrução]
-├── Test/                    # Testes automatizados [Em Construção]
-│   ├── ClienteManager.Domain.Tests/  # API RESTful  [Em Construção]
+├── Core/										# Camada de regras de negócio e contratos
+│   ├── ClienteManager.Application/				# Lógica da aplicação e serviços
+│   │   ├── DTOs								# Objetos de transferência de dados
+│   │   ├── Interfaces							# Interfaces de serviços
+│   │   ├── Mappings							# Configuração de mapeamento (ex.: AutoMapper)
+│   │   └── Services							# Implementações de serviços da aplicação
+│   ├── ClienteManager.Domain/					# Domínio da aplicação
+│   │   ├── Entities							# Entidades de domínio
+│   │   ├── Interfaces							# Interfaces do domínio (ex.: repositórios)
+│   │   └── Validations							# Classes de validação de regras de negócio [Em Construção]
+├── Infrastructure/								# Infraestrutura e persistência de dados
+│   ├── ClienteManager.Infrastructure.Data/		
+│   │   ├── Context								# Configuração do contexto do banco de dados
+│   │   ├── EntitiesConfiguration				# Mapeamento de entidades
+│   │   ├── Identity							# Configuração de autenticação e autorização
+│   │   ├── Migrations							# Migrações do banco de dados
+│   │   └── Repositories						# Implementações de repositórios
+│   ├── ClienteManager.Infrastructure.IoC/		# Injeção de dependências
+├── Presentation/								# Camada de apresentação
+│   ├── ClienteManager.API/						# API RESTful  [Em Construção]
+│   └── ClienteManager.BlazorServer/			# Interface web com Blazor Server [EmConstrução]
+├── Test/										# Testes automatizados [Em Construção]
+│   ├── ClienteManager.Domain.Tests/			# Unit Test do Domain [Em Construção]
 ```
 Pontos em construção, são atividades pendentes de entrega mas em geral inicializadas.                
 
