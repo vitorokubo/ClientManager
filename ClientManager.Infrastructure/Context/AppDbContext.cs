@@ -25,6 +25,8 @@ namespace ClientManager.Infrastructure.Context
 
         public DbSet<Produto> Produtos { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<Venda> Vendas { get; set; }
+        public DbSet<ProdutoVenda> ProdutoVendas { get; set; }
 
     }
 
