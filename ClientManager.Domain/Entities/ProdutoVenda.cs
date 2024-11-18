@@ -13,7 +13,7 @@ namespace ClientManager.Domain.Entities
         public int ProdutoId { get; private set; }
         public Produto Produto { get; private set; }
         public int VendaId { get; private set; }
-        public Produto Venda { get; private set; }
+        public Venda Venda { get; private set; }
 
         public double PrecoTotal => QuatidadeVendida * PrecoPorUnidade;
 
