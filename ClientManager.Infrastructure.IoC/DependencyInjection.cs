@@ -20,9 +20,12 @@ namespace ClientManager.Infrastructure.IoC
 
             services.AddScoped<IProdutoRepository, ProdutoRepository>();
             services.AddScoped<IClienteRepository, ClienteRepository>();
+            services.AddScoped<IVendaRepository, VendaRepository>();
+
 
             services.AddScoped<IProdutoService, ProdutoService>();
             services.AddScoped<IClienteService, ClienteService>();
+
 
             services.AddAutoMapper(typeof(DomainToDTOMappingProfile));   
 
