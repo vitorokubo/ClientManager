@@ -11,12 +11,13 @@ namespace ClientManager.Application.DTOs
 {
     public class ProdutoVendaDTO
     {
-        public int QuatidadeVendida { get; private set; }
-        public double PrecoPorUnidade { get; private set; }
-        public int ProdutoId { get; private set; }
-        public Produto Produto { get; private set; }
-        public int VendaId { get; private set; }
-        public Venda Venda { get; private set; }
+        public int Id { get; set; }
+        public int QuantidadeVendida { get; set; }
+        public double PrecoPorUnidade { get; set; }
+        public int ProdutoId { get;  set; }
+        public Produto Produto { get;  set; }
+        public int VendaId { get;  set; }
+        public Venda Venda { get;  set; }
 
         //public double PrecoTotal => QuatidadeVendida * PrecoPorUnidade;
     }
