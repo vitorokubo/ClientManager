@@ -14,15 +14,14 @@
 }
 else
 {
-    <EditForm Model="cliente" OnValidSubmit="HandleValidSubmit">
+    <EditForm method="post" Model="cliente" OnValidSubmit="HandleValidSubmit" FormName="editClienteForm">
         <DataAnnotationsValidator />
         <ValidationSummary />
 
         <div class="mb-3">
             <label for="name" class="form-label">Nome</label>
-            <InputText id="name" class="form-control" @bind-Value="cliente.Name" />
+            <InputText id="name" class="form-control" @bind-Value="cliente.Name"/>
         </div>
-
 
         <button type="submit" class="btn btn-primary">Salvar</button>
         <button type="button" class="btn btn-secondary" @onclick="GoBack">Cancelar</button>
@@ -31,13 +30,18 @@ else
 
 @code {
     [Parameter] public int Id { get; set; }
-    private ClienteDTO cliente;
+    [SupplyParameterFromForm]
+    private ClienteDTO? cliente { get; set; }
+    private void HandleNameChange(ChangeEventArgs e)
+    {
+        Console.WriteLine($"Name changed: {cliente.Name}");
+    }
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            cliente = await ClienteService.GetById(Id);
+            cliente ??=  await ClienteService.GetById(Id);
             if (cliente == null)
             {
                 Console.WriteLine($"Cliente com ID {Id} não encontrado.");
@@ -57,12 +61,13 @@ else
         {
             await ClienteService.Update(cliente);
             Console.WriteLine("Cliente atualizado com sucesso!");
-            NavigationManager.NavigateTo("/clientes");
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Erro ao atualizar cliente: {ex.Message}");
         }
+        NavigationManager.NavigateTo("/clientes");
+
     }
 
     private void GoBack()

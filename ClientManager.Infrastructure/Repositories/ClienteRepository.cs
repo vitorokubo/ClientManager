@@ -29,7 +29,8 @@ namespace ClientManager.Infrastructure.Repositories
 
         public async Task<Cliente?> GetByIdAsync(int? id)
         {
-            return await _clienteContext.Clientes.FindAsync(id);
+            return await _clienteContext.Clientes
+                          .FindAsync(id);
         }
 
         public async Task<List<Cliente>> GetClientesAsync()
@@ -46,7 +47,10 @@ namespace ClientManager.Infrastructure.Repositories
 
         public async Task<Cliente> UpdateAsync(Cliente Cliente)
         {
+
             _clienteContext.Update(Cliente);
+
+          
             await _clienteContext.SaveChangesAsync();
             return Cliente;
         }

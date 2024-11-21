@@ -1,0 +1,73 @@
+﻿@page "/clientes/deletar/{id:int}"
+@using ClientManager.Application.DTOs
+@using ClientManager.Application.Interfaces
+@inject IClienteService ClienteService
+@inject NavigationManager NavigationManager
+@rendermode InteractiveServer
+
+
+<PageTitle>Deletar Cliente</PageTitle>
+
+<h3>Deletar Cliente</h3>
+
+@if (cliente == null)
+{
+    <p>Carregando cliente...</p>
+}
+else
+{
+        <h5>Deseja mesmo deletar o registro do Cliente: @cliente.Name ?</h5>
+
+        <button type="button" class="btn btn-primary" @onclick="OnDeletar">Deletar</button>
+
+        <button type="button" class="btn btn-secondary" @onclick="GoBack">Cancelar</button>
+}
+
+@code {
+    [Parameter] public int Id { get; set; }
+    private ClienteDTO cliente;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            cliente = await ClienteService.GetById(Id);
+            
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao carregar cliente: {ex.Message}");
+            NavigationManager.NavigateTo("/clientes");
+        }
+
+        if (cliente == null)
+        {
+            Console.WriteLine($"Cliente com ID {Id} não encontrado.");
+            NavigationManager.NavigateTo("/clientes");
+        }
+    }
+
+    private async Task OnDeletar()
+    {
+        Console.WriteLine($"V2");
+
+        try
+        {
+            Console.WriteLine($"Veoip");
+
+            await ClienteService.Remove(Id);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao atualizar cliente: {ex.Message}");
+        }
+        NavigationManager.NavigateTo("/clientes");
+
+    }
+
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo("/clientes");
+    }
+
+}

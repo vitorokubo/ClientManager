@@ -30,10 +30,8 @@ else
 
 @code {
     [SupplyParameterFromForm]
-    private ClienteDTO? Model { get; set; }
+    private ClienteDTO? Model { get; set; } = new();
     private bool isSaving = false;
-
-    protected override void OnInitialized() => Model ??= new();
   
     private async Task SalvarCliente()
     {
@@ -43,7 +41,7 @@ else
         {
 
             await ClienteService.Add(Model);
-            NavigationManager.NavigateTo("/clientes");
+           
         }
         catch (Exception ex)
         {
@@ -53,6 +51,7 @@ else
         {
             isSaving = false;
         }
+        NavigationManager.NavigateTo("/clientes");
     }
 
     private void Cancelar()

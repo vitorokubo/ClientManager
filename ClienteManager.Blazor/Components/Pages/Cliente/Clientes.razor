@@ -24,6 +24,9 @@ else
             <tr>
                 <th>Id</th>
                 <th>Nome</th>
+                <th>Editar</th>
+                <th>Detalhes</th>
+                <th>Deletar</th>
             </tr>
         </thead>
         <tbody>
@@ -34,7 +37,12 @@ else
                     <td>@cliente.Name</td>
                     <td>
                         <a href="/clientes/editar/@cliente.Id">Editar</a> |
-                        <a href="/detalhescliente/@cliente.Id">Detalhes</a>
+                    </td>
+                    <td>
+                    <a href="/detalhescliente/@cliente.Id">Detalhes</a>
+                    </td>
+                    <td>
+                    <a href="/clientes/deletar/@cliente.Id">Deletar</a>
                     </td>
                 </tr>
             }
