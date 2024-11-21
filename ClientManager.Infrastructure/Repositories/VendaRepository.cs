@@ -30,7 +30,8 @@ namespace ClientManager.Infrastructure.Repositories
         {
             return await _context.Vendas
                                  .Include(v => v.Vendas) 
-                                 .ThenInclude(pv => pv.Produto) 
+                                 .ThenInclude(pv => pv.Produto)
+                                 .AsNoTracking()
                                  .FirstOrDefaultAsync(v => v.Id == id);
         }
 
@@ -40,6 +41,7 @@ namespace ClientManager.Infrastructure.Repositories
                                  .Include(v => v.Vendas) 
                                  .ThenInclude(pv => pv.Produto) 
                                  .Include(x=> x.Cliente)
+                                 .AsNoTracking()
                                  .ToListAsync();
         }
 

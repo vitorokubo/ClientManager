@@ -34,7 +34,7 @@ namespace ClientManager.Infrastructure.Repositories
 
         public async Task<IEnumerable<Produto>> GetProdutosAsync()
         {
-            return await _produtoContext.Produtos.ToListAsync();
+            return await _produtoContext.Produtos.AsNoTracking().ToListAsync();
         }
 
         public async Task<Produto> RemoveAsync(Produto produto)

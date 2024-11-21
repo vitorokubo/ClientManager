@@ -15,6 +15,5 @@ namespace ClientManager.Domain.Interfaces
         Task<Venda> CreateAsync(Venda venda);
         Task<Venda> UpdateAsync(Venda venda);
         Task<Venda> RemoveAsync(Venda venda);
-
     }
 }
