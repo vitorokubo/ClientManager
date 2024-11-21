@@ -16,7 +16,7 @@ namespace ClientManager.Infrastructure.IoC
         {
             services.AddDbContext<AppDbContext>(options => 
             options.UseNpgsql(configuration.GetConnectionString("WebApiDatabase"), b => 
-            b.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName)));
+            b.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName)),ServiceLifetime.Scoped);
 
             services.AddScoped<IProdutoRepository, ProdutoRepository>();
             services.AddScoped<IClienteRepository, ClienteRepository>();
@@ -25,6 +25,8 @@ namespace ClientManager.Infrastructure.IoC
 
             services.AddScoped<IProdutoService, ProdutoService>();
             services.AddScoped<IClienteService, ClienteService>();
+            services.AddScoped<IVendaService, VendaService>();
+
 
 
             services.AddAutoMapper(typeof(DomainToDTOMappingProfile));   

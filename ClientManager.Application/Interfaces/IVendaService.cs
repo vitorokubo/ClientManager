@@ -1,6 +1,6 @@
 ﻿using ClientManager.Application.DTOs;
 
-namespace ClientManager.Application.Services
+namespace ClientManager.Application.Interfaces
 {
     public interface IVendaService
     {
