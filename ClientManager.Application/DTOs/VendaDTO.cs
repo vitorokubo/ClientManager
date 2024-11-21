@@ -11,7 +11,7 @@ namespace ClientManager.Application.DTOs
 {
     public class VendaDTO
     {
-        public int VendaId { get; set; }
+        public int Id { get; set; }
         public int ClienteId { get; set; }
         public Cliente Cliente { get; set; }
         public List<ProdutoVendaDTO> ProdutoVendaDTOs { get; set; }
