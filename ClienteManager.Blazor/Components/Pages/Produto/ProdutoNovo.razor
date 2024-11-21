@@ -1,0 +1,64 @@
+﻿@page "/produtos/novo"
+@using ClientManager.Application.DTOs
+@using ClientManager.Application.Interfaces
+@using ClientManager.Application.Services
+@inject IProdutoService ProdutoService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Adicionar Novo Produto</PageTitle>
+
+<h3>Novo Produto</h3>
+
+@if (isSaving)
+{
+    <p>Salvando Produto...</p>
+}
+else
+{
+    <EditForm Model="Model" id="addProduto" OnValidSubmit="SalvarProduto" FormName="novoProdutoForm">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="name">Nome:</label>
+            <InputText id="name" @bind-Value="Model.Name" class="form-control" />
+            <label for="descricao">Descricao:</label>
+            <InputText id="descricao" @bind-Value="Model.Descricao" class="form-control" />
+        </div>
+
+        <button class="btn btn-primary" type="submit">Salvar</button>
+        <a class="btn btn-secondary" @onclick="Cancelar">Cancelar</a>
+    </EditForm>
+}
+
+@code {
+    [SupplyParameterFromForm]
+    private ProdutoDTO? Model { get; set; } = new();
+    private bool isSaving = false;
+  
+    private async Task SalvarProduto()
+    {
+        isSaving = true;
+        Console.WriteLine("Testes");
+        try
+        {
+
+            await ProdutoService.Add(Model);
+            
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao salvar Produto: {ex.Message}");
+        }
+        finally
+        {
+            isSaving = false;
+        }
+        NavigationManager.NavigateTo("/produtos");
+    }
+
+    private void Cancelar()
+    {
+        NavigationManager.NavigateTo("/produtos");
+    }
+}

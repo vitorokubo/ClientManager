@@ -1,0 +1,68 @@
+﻿@page "/vendas"
+@using ClientManager.Application.DTOs
+@using ClientManager.Application.Interfaces
+@inject IVendaService VendaService
+
+<PageTitle>Vendas</PageTitle>
+
+<p>
+    <a href="/vendas/novo">Criar Novo Vendas</a>
+</p>
+
+@if (Venda == null)
+{
+    <p>Carregando Venda...</p>
+}
+else if (!Venda.Any())
+{
+    <p>Não há Venda cadastrados.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Vendas</th>
+                <th>Cliente</th>
+                <th>Editar</th>
+                <th>Detalhes</th>
+                <th>Deletar</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var venda in Venda)
+            {
+                <tr>
+                    <td>@venda.Cliente.Id</td>
+                    <td>@venda.Cliente.Name</td>
+                    <td>
+                        <a href="/vendas/editar/@venda.Id">Editar</a>
+                    </td>
+                    <td>
+                        <a href="/detalhescliente/@venda.Id">Detalhes</a>
+                    </td>
+                    <td>
+                        <a href="/vendas/deletar/@venda.Id">Deletar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<VendaDTO> Venda;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Venda = await VendaService.GetVendas();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao carregar Venda: {ex.Message}");
+        }
+    }
+}

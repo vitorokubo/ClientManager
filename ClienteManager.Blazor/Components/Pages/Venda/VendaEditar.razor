@@ -1,0 +1,147 @@
+﻿@page "/vendas/editar/{id:int}"
+@using ClientManager.Application.DTOs
+@using ClientManager.Application.Interfaces
+@inject IVendaService VendaService
+@inject IProdutoService ProdutoService
+@inject NavigationManager NavigationManager
+@rendermode InteractiveServer
+
+<PageTitle>Editar Venda</PageTitle>
+
+<h3>Editar Venda</h3>
+
+@if (venda == null)
+{
+    <p>Carregando venda...</p>
+}
+else
+{
+    <EditForm Model="venda" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <!-- Botão para adicionar produto -->
+        <div class="form-group">
+            <button type="button" class="btn btn-secondary" @onclick="OnAddProduto">Adicionar produto da venda</button>
+        </div>
+
+        <!-- Tabela de produtos vendidos -->
+        @if (venda.ProdutoVendaDTOs.Any())
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Quantidade Vendida</th>
+                        <th>Preço por Unidade</th>
+                        <th>Excluir</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var produtoVendido in venda.ProdutoVendaDTOs)
+                    {
+                        <tr>
+                            <!-- Coluna do Produto -->
+                            <td>
+                                <InputSelect @bind-Value="produtoVendido.ProdutoId" class="form-control">
+                                    <option value="">Selecione uma opção</option>
+                                    @foreach (var produto in produtos)
+                                    {
+                                        <option value="@produto.Id">@produto.Name</option>
+                                    }
+                                </InputSelect>
+                            </td>
+
+                            <!-- Coluna da Quantidade Vendida -->
+                            <td>
+                                <InputNumber @bind-Value="produtoVendido.QuantidadeVendida" class="form-control" />
+                            </td>
+
+                            <!-- Coluna do Preço por Unidade -->
+                            <td>
+                                <InputNumber @bind-Value="produtoVendido.PrecoPorUnidade" class="form-control" />
+                            </td>
+
+                            <!-- Coluna de Excluir -->
+                            <td>
+                                <button type="button" class="btn btn-danger" @onclick="() => OnRemoveProduto(produtoVendido)">Excluir</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>Não há produtos adicionados.</p>
+        }
+
+        <!-- Botões de ação -->
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <button type="button" class="btn btn-secondary" @onclick="GoBack">Cancelar</button>
+        </div>
+    </EditForm>
+
+
+}
+
+@code {
+    [Parameter] public int Id { get; set; }
+    private VendaDTO venda;
+    private List<ProdutoDTO> produtos;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            produtos = await ProdutoService.GetProdutos();
+            venda = await VendaService.GetById(Id);
+            if (venda == null)
+            {
+                Console.WriteLine($"Venda com ID {Id} não encontrado.");
+                NavigationManager.NavigateTo("/vendas");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao carregar venda: {ex.Message}");
+            NavigationManager.NavigateTo("/vendas");
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+            await VendaService.Update(venda);
+            Console.WriteLine("Venda atualizado com sucesso!");
+            NavigationManager.NavigateTo("/vendas");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao atualizar venda: {ex.Message}");
+        }
+    }
+
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo("/vendas");
+    }
+
+
+    private void OnAddProduto()
+    {
+        if(venda.ProdutoVendaDTOs.Any(x => x.ProdutoId == 0)) return;
+        venda.ProdutoVendaDTOs.Add(new()
+        {
+            VendaId = venda.Id,
+        });
+    }
+
+    private void OnRemoveProduto(ProdutoVendaDTO produtoVenda)
+    {
+        venda.ProdutoVendaDTOs.Remove(produtoVenda);
+    }
+}

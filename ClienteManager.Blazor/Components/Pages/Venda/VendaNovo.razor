@@ -1,0 +1,83 @@
+﻿@page "/vendas/novo"
+@using ClientManager.Application.DTOs
+@using ClientManager.Application.Interfaces
+@using ClientManager.Application.Services
+@inject IVendaService VendaService
+@inject IClienteService ClienteService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Adicionar Novo Venda</PageTitle>
+
+<h3>Novo Venda</h3>
+
+@if (isSaving)
+{
+    <p>Salvando Venda...</p>
+}
+else
+{
+    <EditForm Model="Model" id="addVenda" OnValidSubmit="SalvarVenda" FormName="novoVendaForm">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            @if (clientes != null)
+            {
+                <label for="clienteId">Selecione um cliente</label>
+                <InputSelect id="clienteId" @bind-Value="Model.ClienteId" class="form-control">
+                    <option value="">Selecione um cliente</option>
+                    @foreach (var cliente in clientes)
+                    {
+                        <option value="@cliente.Id">@cliente.Name</option>
+                    }
+                </InputSelect>
+            }
+        </div>
+
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit">Salvar</button>
+            <a class="btn btn-secondary" @onclick="Cancelar">Cancelar</a>
+        </div>
+    </EditForm>
+
+}
+
+@code {
+    [SupplyParameterFromForm]
+    private VendaDTO? Model { get; set; } = new();
+    private bool isSaving = false;
+    private List<ClienteDTO> clientes;
+
+    protected async override Task OnInitializedAsync(){
+ 
+        clientes = await ClienteService.GetClientes();
+    } 
+  
+
+
+    private async Task SalvarVenda()
+    {
+        isSaving = true;
+        Console.WriteLine("Testes");
+        try
+        {
+
+            await VendaService.Add(Model);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao salvar Venda: {ex.Message}");
+        }
+        finally
+        {
+            isSaving = false;
+        }
+        NavigationManager.NavigateTo("/vendas");
+
+    }
+
+    private void Cancelar()
+    {
+        NavigationManager.NavigateTo("/vendas");
+    }
+}

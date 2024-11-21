@@ -49,11 +49,10 @@ else
 
     private async Task OnDeletar()
     {
-        Console.WriteLine($"V2");
 
         try
         {
-            Console.WriteLine($"Veoip");
+            Console.WriteLine($"Cabo");
 
             await ClienteService.Remove(Id);
         }
@@ -61,6 +60,8 @@ else
         {
             Console.WriteLine($"Erro ao atualizar cliente: {ex.Message}");
         }
+        Console.WriteLine($"Cabo");
+
         NavigationManager.NavigateTo("/clientes");
 
     }

@@ -30,27 +30,39 @@ namespace ClientManager.Infrastructure.Repositories
         public async Task<Cliente?> GetByIdAsync(int? id)
         {
             return await _clienteContext.Clientes
-                          .FindAsync(id);
+                          .AsNoTracking()
+                          .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<List<Cliente>> GetClientesAsync()
         {
-            return await _clienteContext.Clientes.ToListAsync();
+            return await _clienteContext.Clientes.AsNoTracking().ToListAsync();
         }
 
-        public async Task<Cliente> RemoveAsync(Cliente Cliente)
+        public async Task<Cliente> RemoveAsync(int id)
         {
-            _clienteContext.Remove(Cliente);
+
+            var cliente = await _clienteContext.Clientes.FindAsync(id);
+
+            if (cliente == null)
+            {
+                
+                return null;
+            }
+
+            _clienteContext.Clientes.Remove(cliente);
+
             await _clienteContext.SaveChangesAsync();
-            return Cliente;
+
+            return cliente;
         }
 
         public async Task<Cliente> UpdateAsync(Cliente Cliente)
         {
+            var clienteExistente = await _clienteContext.Clientes
+                .FirstOrDefaultAsync(c => c.Id == Cliente.Id);
 
-            _clienteContext.Update(Cliente);
-
-          
+            clienteExistente.Update(name: Cliente.Name);
             await _clienteContext.SaveChangesAsync();
             return Cliente;
         }

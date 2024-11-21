@@ -39,6 +39,7 @@ namespace ClientManager.Infrastructure.Repositories
             return await _context.Vendas
                                  .Include(v => v.Vendas) 
                                  .ThenInclude(pv => pv.Produto) 
+                                 .Include(x=> x.Cliente)
                                  .ToListAsync();
         }
 

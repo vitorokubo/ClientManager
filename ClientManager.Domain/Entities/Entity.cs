@@ -8,7 +8,7 @@ namespace ClientManager.Domain.Entities
 {
     public abstract class Entity
     {
-        public int Id { get; protected set; } 
+        public int Id { get; set; } 
         // DateTime CreatedDate {get;set;}
         // string CreatedBy { get; set; }
     }

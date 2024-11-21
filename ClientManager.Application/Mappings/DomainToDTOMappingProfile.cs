@@ -16,7 +16,9 @@ namespace ClientManager.Application.Mappings
         public DomainToDTOMappingProfile()
         {
             CreateMap<Produto, ProdutoDTO>().ReverseMap();
-            CreateMap<Cliente, ClienteDTO>().ReverseMap();
+           CreateMap<Cliente, ClienteDTO>()
+    .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+    .ReverseMap();
             CreateMap<ProdutoVenda, ProdutoVendaDTO>().ReverseMap();
               
             CreateMap<Venda, VendaDTO>()

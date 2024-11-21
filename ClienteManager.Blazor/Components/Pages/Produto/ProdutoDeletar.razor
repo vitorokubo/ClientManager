@@ -1,0 +1,75 @@
+﻿@page "/produtos/deletar/{id:int}"
+@using ClientManager.Application.DTOs
+@using ClientManager.Application.Interfaces
+@using ClientManager.Application.Services
+@inject IProdutoService Produtoservice
+@inject NavigationManager NavigationManager
+@rendermode InteractiveServer
+
+
+<PageTitle>Deletar Produto</PageTitle>
+
+<h3>Deletar Produto</h3>
+
+@if (produto == null)
+{
+    <p>Carregando produto...</p>
+}
+else
+{
+        <h5>Deseja mesmo deletar o registro do Produto: @produto.Name ?</h5>
+
+        <button type="button" class="btn btn-primary" @onclick="OnDeletar">Deletar</button>
+
+        <button type="button" class="btn btn-secondary" @onclick="GoBack">Cancelar</button>
+}
+
+@code {
+    [Parameter] public int Id { get; set; }
+    private ProdutoDTO produto;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            produto = await Produtoservice.GetById(Id);
+            
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao carregar produto: {ex.Message}");
+            NavigationManager.NavigateTo("/produtos");
+        }
+
+        if (produto == null)
+        {
+            Console.WriteLine($"Produto com ID {Id} não encontrado.");
+            NavigationManager.NavigateTo("/produtos");
+        }
+    }
+
+    private async Task OnDeletar()
+    {
+
+        try
+        {
+            Console.WriteLine($"Cabo");
+
+            await Produtoservice.Remove(Id);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao atualizar produto: {ex.Message}");
+        }
+        Console.WriteLine($"Cabo");
+
+        NavigationManager.NavigateTo("/produtos");
+
+    }
+
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo("/produtos");
+    }
+
+}

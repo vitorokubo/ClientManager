@@ -1,21 +1,22 @@
-﻿@page "/clientes"
+﻿@page "/produtos"
 @using ClientManager.Application.DTOs
 @using ClientManager.Application.Interfaces
-@inject IClienteService ClienteService
+@using ClientManager.Application.Services
+@inject IProdutoService ProdutoService
 
-<PageTitle>Clientes</PageTitle>
+<PageTitle>Produtos</PageTitle>
 
 <p>
-    <a href="/clientes/novo">Criar Novo Cliente</a>
+    <a href="/produtos/novo">Criar Novo Produtos</a>
 </p>
 
-@if (clientes == null)
+@if (Produto == null)
 {
-    <p>Carregando clientes...</p>
+    <p>Carregando Produto...</p>
 }
-else if (!clientes.Any())
+else if (!Produto.Any())
 {
-    <p>Não há clientes cadastrados.</p>
+    <p>Não há Produto cadastrados.</p>
 }
 else
 {
@@ -30,19 +31,21 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var cliente in clientes.OrderBy(x => x.Id))
+            @foreach (var cliente in Produto)
             {
                 <tr>
                     <td>@cliente.Id</td>
                     <td>@cliente.Name</td>
                     <td>
-                        <a href="/clientes/editar/@cliente.Id">Editar</a> 
+                        <a href="/produtos/editar/@cliente.Id">Editar</a> 
+                        
                     </td>
                     <td>
-                    <a href="/detalhescliente/@cliente.Id">Detalhes</a>
+                        <a href="/produtos/detalhes/@cliente.Id">Detalhes</a>
                     </td>
+
                     <td>
-                    <a href="/clientes/deletar/@cliente.Id">Deletar</a>
+                        <a href="/produtos/deletar/@cliente.Id">Deletar</a>
                     </td>
                 </tr>
             }
@@ -51,17 +54,17 @@ else
 }
 
 @code {
-    private List<ClienteDTO> clientes;
+    private List<ProdutoDTO> Produto;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            clientes = await ClienteService.GetClientes();
+            Produto = await ProdutoService.GetProdutos();
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Erro ao carregar clientes: {ex.Message}");
+            Console.WriteLine($"Erro ao carregar Produto: {ex.Message}");
         }
     }
 }

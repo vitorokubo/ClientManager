@@ -14,7 +14,7 @@ namespace ClientManager.Domain.Interfaces
 
         Task<Cliente> CreateAsync(Cliente cliente);
         Task<Cliente> UpdateAsync(Cliente cliente);
-        Task<Cliente> RemoveAsync(Cliente cliente);
+        Task<Cliente?> RemoveAsync(int id);
 
     }
 }

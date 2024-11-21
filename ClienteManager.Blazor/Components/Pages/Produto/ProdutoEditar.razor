@@ -1,0 +1,82 @@
+﻿@page "/produtos/editar/{id:int}"
+@using ClientManager.Application.DTOs
+@using ClientManager.Application.Interfaces
+@inject IProdutoService ProdutoService
+@inject NavigationManager NavigationManager
+@rendermode InteractiveServer
+
+
+<PageTitle>Editar Produto</PageTitle>
+
+<h3>Editar Produto</h3>
+
+@if (produto == null)
+{
+    <p>Carregando produto...</p>
+}
+else
+{
+    <EditForm Model="produto" method="post" OnValidSubmit="HandleValidSubmit" FormName="editProdutoForm">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <label for="name" class="form-label">Nome</label>
+            <InputText id="name" class="form-control" @bind-Value="produto.Name" />
+            <label for="descricao" class="form-label">Descricao</label>
+            <InputText id="descricao" class="form-control" @bind-Value="produto.Descricao" />
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">Salvar</button>
+        <button type="button" class="btn btn-secondary" @onclick="GoBack">Cancelar</button>
+    </EditForm>
+}
+
+@code {
+    [Parameter] public int Id { get; set; }
+    [SupplyParameterFromForm]
+    private ProdutoDTO? produto { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            produto ??= await ProdutoService.GetById(Id);
+            if (produto == null)
+            {
+                Console.WriteLine($"Produto com ID {Id} não encontrado.");
+                NavigationManager.NavigateTo("/produtos");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao carregar produto: {ex.Message}");
+            NavigationManager.NavigateTo("/produtos");
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+
+        if (produto.Id == 0) produto.Id = Id; // form enviando Id zerado
+
+
+        try
+        {
+            await ProdutoService.Update(produto);
+            Console.WriteLine("Produto atualizado com sucesso!");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Erro ao atualizar produto: {ex.Message}");
+        }
+        NavigationManager.NavigateTo("/produtos");
+
+    }
+
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo("/produtos");
+    }
+}

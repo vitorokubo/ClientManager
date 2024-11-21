@@ -18,6 +18,6 @@ namespace ClientManager.Application.Interfaces
 
         Task Add(ClienteDTO clienteDTO);
         Task Update(ClienteDTO clienteDTO);
-        Task Remove(int? id);
+        Task Remove(int id);
     }
 }

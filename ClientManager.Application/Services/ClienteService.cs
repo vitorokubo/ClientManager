@@ -41,15 +41,18 @@ namespace ClientManager.Application.Services
             return _mapper.Map<List<ClienteDTO>>(clientesEntity);
         }
 
-        public async Task Remove(int? id)
+        public async Task Remove(int id)
         {
-            var clienteEntity = _clienteRepository.GetByIdAsync(id).Result; 
-            if(clienteEntity != null) await _clienteRepository.RemoveAsync(clienteEntity);
+            
+            await _clienteRepository.RemoveAsync(id);
         }
 
         public async Task Update(ClienteDTO clienteDTO)
         {
-            var clienteEntity = _mapper.Map<Cliente>(clienteDTO);
+            var clienteEntity = new Cliente(clienteDTO.Name);
+            clienteEntity.Id = clienteDTO.Id;
+
+            Console.WriteLine(clienteEntity.Id);
             await _clienteRepository.UpdateAsync(clienteEntity);
         }
 
