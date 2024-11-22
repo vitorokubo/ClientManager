@@ -82,15 +82,12 @@ else
             <button type="button" class="btn btn-secondary" @onclick="GoBack">Cancelar</button>
         </div>
     </EditForm>
-
-
 }
 
 @code {
     [Parameter] public int Id { get; set; }
     private VendaDTO venda;
     private List<ProdutoDTO> produtos;
-
 
     protected override async Task OnInitializedAsync()
     {
@@ -113,10 +110,12 @@ else
 
     private async Task HandleValidSubmit()
     {
+
+        venda.Id = Id;
         try
         {
             await VendaService.Update(venda);
-            Console.WriteLine("Venda atualizado com sucesso!");
+            Console.WriteLine("Venda atualizada com sucesso!");
             NavigationManager.NavigateTo("/vendas");
         }
         catch (Exception ex)
@@ -130,14 +129,14 @@ else
         NavigationManager.NavigateTo("/vendas");
     }
 
-
     private void OnAddProduto()
     {
-        if(venda.ProdutoVendaDTOs.Any(x => x.ProdutoId == 0)) return;
-        venda.ProdutoVendaDTOs.Add(new()
-        {
-            VendaId = venda.Id,
-        });
+        if (venda.ProdutoVendaDTOs.Any(x => x.ProdutoId == 0)) return;
+
+        venda.ProdutoVendaDTOs.Add(new ProdutoVendaDTO
+            {
+                VendaId = venda.Id
+            });
     }
 
     private void OnRemoveProduto(ProdutoVendaDTO produtoVenda)

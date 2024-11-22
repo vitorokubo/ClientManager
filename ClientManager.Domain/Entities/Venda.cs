@@ -10,7 +10,7 @@ namespace ClientManager.Domain.Entities
     {
         public int ClienteId { get; private set; }
         public Cliente Cliente { get; private set; }
-        public List<ProdutoVenda> Vendas {  get; private set; }
+        public List<ProdutoVenda> Vendas { get; set; }
 
         public double VendaTotal => Vendas.Sum(x=> x.PrecoTotal);
         

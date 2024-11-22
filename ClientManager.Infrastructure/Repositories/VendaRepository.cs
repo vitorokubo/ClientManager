@@ -54,8 +54,51 @@ namespace ClientManager.Infrastructure.Repositories
 
         public async Task<Venda> UpdateAsync(Venda venda)
         {
-            _context.Update(venda);
-            await _context.SaveChangesAsync();
+
+            var existingVenda = await _context.Vendas
+                                       .Include(x => x.Vendas) // Incluir as vendas (ProdutoVenda)
+                                       .FirstOrDefaultAsync(v => v.Id == venda.Id);
+
+            if (existingVenda != null)
+            {
+                // 1. Atualizar as propriedades da venda
+                _context.Entry(existingVenda).CurrentValues.SetValues(venda);
+
+                // 2. Atualizar a lista de ProdutoVenda
+                if (venda.Vendas != null)
+                {
+                    foreach (var produtoVenda in venda.Vendas)
+                    {
+                        var existingProdutoVenda = existingVenda.Vendas
+                            .FirstOrDefault(pv => pv.Id == produtoVenda.Id);
+
+                        if (existingProdutoVenda != null)
+                        {
+                            // 3. Atualiza os campos da ProdutoVenda que já existem
+                            _context.Entry(existingProdutoVenda).CurrentValues.SetValues(produtoVenda);
+                        }
+                        else
+                        {
+                            // 4. Adiciona novos produtos de venda (se não existir)
+                            existingVenda.Vendas.Add(produtoVenda);
+                        }
+                    }
+
+                    // 5. Remover os produtos de venda antigos que não estão na nova lista
+                    var produtoVendasToRemove = existingVenda.Vendas
+                        .Where(existingPV => !venda.Vendas.Any(newPV => newPV.Id == existingPV.Id))
+                        .ToList();
+
+                    foreach (var produtoVendaToRemove in produtoVendasToRemove)
+                    {
+                        existingVenda.Vendas.Remove(produtoVendaToRemove);
+                    }
+                }
+
+                // Salva as alterações no banco de dados
+                await _context.SaveChangesAsync();
+            }
+
             return venda;
         }
     }
