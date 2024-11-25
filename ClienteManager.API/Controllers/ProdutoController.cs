@@ -1,11 +1,13 @@
 using ClientManager.Application.DTOs;
 using ClientManager.Application.Interfaces;
 using ClientManager.Application.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClienteManager.API.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class ProdutoController : ControllerBase
     {
